@@ -1,13 +1,10 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+generator client {
+  provider = "prisma-client-js"
+}
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-}
-
-generator client {
-  provider = "prisma-client-js"
 }
 
 model Book {
@@ -19,6 +16,7 @@ model Book {
   publisher String
   year      String
   imageURL  String
+  Cart      Cart?
 }
 
 model User {
@@ -26,4 +24,13 @@ model User {
   email    String? @unique
   name     String?
   password String?
+  Cart     Cart?
+}
+
+model Cart {
+  id     Int  @id @default(autoincrement())
+  userId Int  @unique(map: "Cart_userId_unique")
+  bookId Int  @unique(map: "Cart_bookId_unique")
+  book   Book @relation(fields: [bookId], references: [id])
+  user   User @relation(fields: [userId], references: [id])
 }

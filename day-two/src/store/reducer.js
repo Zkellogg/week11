@@ -4,7 +4,12 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case "BOOKLOADED":
+    case "BOOKSLOADED":
+      return {
+        ...state,
+        books: action.payload,
+      };
+    case "ADDBOOK":
       return {
         ...state,
         books: action.payload,
